@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-
 class Cell:
     """A cell in the maze.
     
