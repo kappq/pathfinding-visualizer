@@ -127,7 +127,7 @@ def main() -> None:
                             algorithm = MAZE_GENERATION_ALGORITHM(COLS, ROWS)
                             algorithm_type = AlgorithmType.MAZE_GENERATION
                         case pygame.K_p:
-                            algorithm = PATH_FINDING_ALGORITHM(COLS, ROWS)
+                            algorithm = PATH_FINDING_ALGORITHM(maze, start_cell, end_cell)
                             algorithm_type = AlgorithmType.PATH_FINDING
 
         if algorithm and algorithm_type == AlgorithmType.MAZE_GENERATION:
