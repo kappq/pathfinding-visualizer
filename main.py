@@ -41,7 +41,7 @@ def draw_maze(
     start_cell: Cell = None,
     end_cell: Cell = None,
     path: list[Cell] = [],
-    current_cell: Cell = None,
+    special_cells: Cell = set(),
     open_cells: set[Cell] = set(),
     closed_cells: set[Cell] = set(),
 ) -> None:
@@ -66,12 +66,12 @@ def draw_maze(
     """
     for row in maze:
         for cell in row:
-            if cell == current_cell:
-                pygame.draw.rect(window, MAGENTA, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
-            elif cell == start_cell:
+            if cell == start_cell:
                 pygame.draw.rect(window, RED, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             elif cell == end_cell:
                 pygame.draw.rect(window, GREEN, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
+            elif cell in special_cells:
+                pygame.draw.rect(window, MAGENTA, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             elif cell in path:
                 pygame.draw.rect(window, YELLOW, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             elif cell in open_cells:
@@ -128,8 +128,8 @@ def main() -> None:
 
         if algorithm and algorithm_type == 'maze generation':
             try:
-                maze, current_cell = next(algorithm)
-                draw_maze(maze, current_cell=current_cell)
+                maze, special_cells = next(algorithm)
+                draw_maze(maze, special_cells=special_cells)
             except StopIteration as e:
                 maze = e.value
 

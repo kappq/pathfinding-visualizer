@@ -52,6 +52,6 @@ def dfs(width: int, height: int) -> list[list[Cell]]:
             visited.add(neighbour)
             stack.append(neighbour)
         
-        yield maze, current_cell
+        yield maze, stack
     
     return maze
