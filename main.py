@@ -14,7 +14,7 @@ from path_finding import astar, dijkstra
 pygame.init()
 
 MAZE_GENERATION_ALGORITHM = 'dfs'
-PATH_FINDING_ALGORITHM = 'dijkstra'
+PATH_FINDING_ALGORITHM = 'astar'
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -82,7 +82,7 @@ def draw_maze(
                 pygame.draw.rect(window, WHITE, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             
             if all(cell.walls.values()):
-                pygame.draw.rect(window, GREY, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
+                pygame.draw.rect(window, BLACK, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             else:
                 if cell.walls['n']:
                     pygame.draw.line(window, BLACK, (cell.x * SIZE, cell.y * SIZE), (cell.x * SIZE + SIZE, cell.y * SIZE))
@@ -125,8 +125,6 @@ def main() -> None:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
-        window.fill(GREY)
 
         if algorithm and algorithm_type == 'maze generation':
             try:
