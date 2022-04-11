@@ -7,14 +7,13 @@ and the size of the maze.
 
 import pygame
 from cell import Cell
-from maze_generation import dfs, prim
-from path_finding import astar, dijkstra
+from algorithm import AlgorithmType, MazeGenerationAlgorithm, PathFindingAlgorithm
 
 
 pygame.init()
 
-MAZE_GENERATION_ALGORITHM = 'dfs'
-PATH_FINDING_ALGORITHM = 'astar'
+MAZE_GENERATION_ALGORITHM = MazeGenerationAlgorithm.DFS
+PATH_FINDING_ALGORITHM = PathFindingAlgorithm.ASTAR
 
 BLACK = 0x0A0908
 WHITE = 0xF1FFE7
@@ -103,17 +102,10 @@ def main() -> None:
     It starts the pygame window and generates the maze. It then runs the
     pathfinding algorithm and draws the path.
     """
-    match MAZE_GENERATION_ALGORITHM:
-        case 'dfs':
-            algorithm = dfs(COLS, ROWS)
-        case 'prim':
-            algorithm = prim(COLS, ROWS)
-        case _:
-            raise ValueError(f'Invalid maze generation algorithm: {MAZE_GENERATION_ALGORITHM}')
-    
-    algorithm_type = 'maze generation'
+    algorithm = None
+    algorithm_type = None
 
-    maze = None
+    maze = [[Cell(x, y) for x in range(COLS)] for y in range(ROWS)]
     path = []
 
     start_cell = Cell(0, 0)
@@ -126,32 +118,32 @@ def main() -> None:
         clock.tick(30)
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+            match event.type:
+                case pygame.QUIT:
+                    running = False
+                case pygame.KEYDOWN:
+                    match event.key:
+                        case pygame.K_m:
+                            algorithm = MAZE_GENERATION_ALGORITHM(COLS, ROWS)
+                            algorithm_type = AlgorithmType.MAZE_GENERATION
+                        case pygame.K_p:
+                            algorithm = PATH_FINDING_ALGORITHM(COLS, ROWS)
+                            algorithm_type = AlgorithmType.PATH_FINDING
 
-        if algorithm and algorithm_type == 'maze generation':
+        if algorithm and algorithm_type == AlgorithmType.MAZE_GENERATION:
             try:
                 maze, special_cells = next(algorithm)
                 draw_maze(maze, special_cells=special_cells)
             except StopIteration as e:
                 maze = e.value
-
-                match PATH_FINDING_ALGORITHM:
-                    case 'astar':
-                        algorithm = astar(maze, start_cell, end_cell)
-                    case 'dijkstra':
-                        algorithm = dijkstra(maze, start_cell, end_cell)
-                    case _:
-                        raise ValueError(f'Invalid pathfinding algorithm: {PATH_FINDING_ALGORITHM}')
-                
-                algorithm_type = 'path finding'
-        elif algorithm and algorithm_type == 'path finding':
+                algorithm = None
+        elif algorithm and algorithm_type == AlgorithmType.PATH_FINDING:
             try:
                 maze, open_cells, closed_cells = next(algorithm)
                 draw_maze(maze, open_cells=open_cells, closed_cells=closed_cells, start_cell=start_cell, end_cell=end_cell)
             except StopIteration as e:
-                algorithm = None
                 path = e.value
+                algorithm = None
         else:
             draw_maze(maze, start_cell, end_cell, path)
         
