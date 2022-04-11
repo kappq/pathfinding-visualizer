@@ -16,15 +16,15 @@ pygame.init()
 MAZE_GENERATION_ALGORITHM = 'dfs'
 PATH_FINDING_ALGORITHM = 'astar'
 
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
-CYAN = (0, 255, 255)
-MAGENTA = (255, 0, 255)
-GREY = (128, 128, 128)
+BLACK = 0x0A0908
+WHITE = 0xF1FFE7
+RED = 0xC1292E
+GREEN = 0x63A46C
+BLUE = 0x0E6BA8
+YELLOW = 0xF1D302
+CYAN = 0x5CC8FF
+PINK = 0xEAC4D5
+GREY = 0x596475
 
 COLS = 25
 ROWS = 15
@@ -77,7 +77,7 @@ def draw_maze(
             elif cell == end_cell:
                 pygame.draw.rect(window, GREEN, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             elif cell in special_cells:
-                pygame.draw.rect(window, MAGENTA, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
+                pygame.draw.rect(window, PINK, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             elif cell in path:
                 pygame.draw.rect(window, YELLOW, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             elif cell in open_cells:
