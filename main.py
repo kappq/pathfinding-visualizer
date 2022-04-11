@@ -7,7 +7,7 @@ and the size of the maze.
 
 import pygame
 from cell import Cell
-from maze_generation import dfs
+from maze_generation import dfs, prim
 from path_finding import astar, dijkstra
 
 
@@ -28,6 +28,7 @@ GREY = (128, 128, 128)
 
 COLS = 25
 ROWS = 15
+
 SIZE = 20
 
 WIDTH, HEIGHT = (COLS * SIZE, ROWS * SIZE)
@@ -66,6 +67,11 @@ def draw_maze(
     """
     for row in maze:
         for cell in row:
+            if all(cell.walls.values()):
+                pygame.draw.rect(window, GREY, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
+            else:
+                pygame.draw.rect(window, WHITE, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
+            
             if cell == start_cell:
                 pygame.draw.rect(window, RED, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             elif cell == end_cell:
@@ -78,11 +84,6 @@ def draw_maze(
                 pygame.draw.rect(window, CYAN, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             elif cell in closed_cells:
                 pygame.draw.rect(window, BLUE, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
-            else:
-                pygame.draw.rect(window, WHITE, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
-            
-            if all(cell.walls.values()):
-                pygame.draw.rect(window, GREY, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             
             if cell.walls['n']:
                 pygame.draw.line(window, BLACK, (cell.x * SIZE, cell.y * SIZE), (cell.x * SIZE + SIZE, cell.y * SIZE))
@@ -105,6 +106,8 @@ def main() -> None:
     match MAZE_GENERATION_ALGORITHM:
         case 'dfs':
             algorithm = dfs(COLS, ROWS)
+        case 'prim':
+            algorithm = prim(COLS, ROWS)
         case _:
             raise ValueError(f'Invalid maze generation algorithm: {MAZE_GENERATION_ALGORITHM}')
     
