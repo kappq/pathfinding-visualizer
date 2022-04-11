@@ -1,6 +1,6 @@
 from cell import Cell
 from helpers import get_neighbours, carve_wall
-from random import choice
+from random import choice, randint
 
 
 def dfs(width: int, height: int) -> list[list[Cell]]:
@@ -34,7 +34,7 @@ def dfs(width: int, height: int) -> list[list[Cell]]:
     visited = set()
     stack = []
 
-    initial_cell = maze[0][0]
+    initial_cell = maze[randint(0, height - 1)][randint(0, width - 1)]
     
     visited.add(initial_cell)
     stack.append(initial_cell)
