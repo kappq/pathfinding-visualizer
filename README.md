@@ -17,3 +17,6 @@ Run the code:
 ```bash
 python main.py
 ```
+
+## Usage
+Press `M` to start the maze generation algorithm and press `P` to start the path finding algorithm. If you want to change the dimension of the maze or any of the algorithms, you will have to edit the `main.py` file.
