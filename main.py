@@ -82,16 +82,16 @@ def draw_maze(
                 pygame.draw.rect(window, WHITE, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
             
             if all(cell.walls.values()):
-                pygame.draw.rect(window, BLACK, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
-            else:
-                if cell.walls['n']:
-                    pygame.draw.line(window, BLACK, (cell.x * SIZE, cell.y * SIZE), (cell.x * SIZE + SIZE, cell.y * SIZE))
-                if cell.walls['s']:
-                    pygame.draw.line(window, BLACK, (cell.x * SIZE, cell.y * SIZE + SIZE), (cell.x * SIZE + SIZE, cell.y * SIZE + SIZE))
-                if cell.walls['e']:
-                    pygame.draw.line(window, BLACK, (cell.x * SIZE + SIZE, cell.y * SIZE), (cell.x * SIZE + SIZE, cell.y * SIZE + SIZE))
-                if cell.walls['w']:
-                    pygame.draw.line(window, BLACK, (cell.x * SIZE, cell.y * SIZE), (cell.x * SIZE, cell.y * SIZE + SIZE))
+                pygame.draw.rect(window, GREY, (cell.x * SIZE, cell.y * SIZE, SIZE, SIZE))
+            
+            if cell.walls['n']:
+                pygame.draw.line(window, BLACK, (cell.x * SIZE, cell.y * SIZE), (cell.x * SIZE + SIZE, cell.y * SIZE))
+            if cell.walls['s']:
+                pygame.draw.line(window, BLACK, (cell.x * SIZE, cell.y * SIZE + SIZE), (cell.x * SIZE + SIZE, cell.y * SIZE + SIZE))
+            if cell.walls['e']:
+                pygame.draw.line(window, BLACK, (cell.x * SIZE + SIZE, cell.y * SIZE), (cell.x * SIZE + SIZE, cell.y * SIZE + SIZE))
+            if cell.walls['w']:
+                pygame.draw.line(window, BLACK, (cell.x * SIZE, cell.y * SIZE), (cell.x * SIZE, cell.y * SIZE + SIZE))
 
 
 def main() -> None:
