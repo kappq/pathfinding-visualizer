@@ -25,6 +25,30 @@ def carve_wall(cell: Cell, neighbour: Cell) -> None:
         neighbour.walls['s'] = False
 
 
+def add_wall(cell: Cell, neighbour: Cell) -> None:
+    """Add a wall between two cells.
+    
+    Parameters
+    ----------
+    cell : Cell
+        The cell to add a wall from.
+    neighbour : Cell
+        The cell to add a wall to.
+    """
+    if neighbour.x > cell.x:
+        cell.walls['e'] = True
+        neighbour.walls['w'] = True
+    elif neighbour.x < cell.x:
+        cell.walls['w'] = True
+        neighbour.walls['e'] = True
+    elif neighbour.y > cell.y:
+        cell.walls['s'] = True
+        neighbour.walls['n'] = True
+    elif neighbour.y < cell.y:
+        cell.walls['n'] = True
+        neighbour.walls['s'] = True
+
+
 def are_connected(cell: Cell, neighbour: Cell) -> bool:
     """Check if two cells are connected.
     

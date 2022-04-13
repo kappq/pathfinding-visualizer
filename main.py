@@ -8,6 +8,7 @@ and the size of the maze.
 import pygame
 from cell import Cell
 from algorithm import AlgorithmType, MazeGenerationAlgorithm, PathFindingAlgorithm
+from helpers import add_wall, carve_wall
 
 
 pygame.init()
@@ -129,6 +130,47 @@ def main() -> None:
                         case pygame.K_p:
                             algorithm = PATH_FINDING_ALGORITHM(maze, start_cell, end_cell)
                             algorithm_type = AlgorithmType.PATH_FINDING
+        
+        if pygame.mouse.get_pressed()[0]:
+            (x, y) = pygame.mouse.get_pos()
+            i = x // SIZE
+            j = y // SIZE
+            cell = maze[j][i]
+            distances = {
+                'w': x % SIZE,
+                'n': y % SIZE,
+                'e': SIZE - x % SIZE,
+                's': SIZE - y % SIZE,
+            }
+            closest = min(distances, key=distances.get)
+            if closest == 'w' and i > 0:
+                add_wall(cell, maze[j][i - 1])
+            elif closest == 'n' and j > 0:
+                add_wall(cell, maze[j - 1][i])
+            elif closest == 'e' and i < COLS - 1:
+                add_wall(cell, maze[j][i + 1])
+            elif closest == 's' and j < ROWS - 1:
+                add_wall(cell, maze[j + 1][i])
+        elif pygame.mouse.get_pressed()[2]:
+            (x, y) = pygame.mouse.get_pos()
+            i = x // SIZE
+            j = y // SIZE
+            cell = maze[j][i]
+            distances = {
+                'w': x % SIZE,
+                'n': y % SIZE,
+                'e': SIZE - x % SIZE,
+                's': SIZE - y % SIZE,
+            }
+            closest = min(distances, key=distances.get)
+            if closest == 'w' and i > 0:
+                carve_wall(cell, maze[j][i - 1])
+            elif closest == 'n' and j > 0:
+                carve_wall(cell, maze[j - 1][i])
+            elif closest == 'e' and i < COLS - 1:
+                carve_wall(cell, maze[j][i + 1])
+            elif closest == 's' and j < ROWS - 1:
+                carve_wall(cell, maze[j + 1][i])
 
         if algorithm and algorithm_type == AlgorithmType.MAZE_GENERATION:
             try:
