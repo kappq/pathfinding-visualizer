@@ -2,7 +2,7 @@
 A simple pathfinding algorithm visualizer (with a maze generator) written in Python.
 
 ## Requirements
-This project requires Python >=3.10.4 and Pygame >=2.1.2.
+This project requires `Python >=3.10.4` and `Pygame >=2.1.2`.
 
 ## Getting started
 Clone the repository:
